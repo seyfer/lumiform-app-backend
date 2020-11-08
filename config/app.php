@@ -1,6 +1,15 @@
 <?php
 
 return [
+    'third_party_apis' => [
+        'OMDB_API_URL' => env('OMDB_API_URL', 'http://www.omdbapi.com/'),
+        'OMDB_API_KEY' => env('OMDB_API_KEY', 'http://www.omdbapi.com/')
+    ],
+
+    'game' => [
+        'NUMBER_STEPS' => 5,
+        'BOUNDARY_GUESS' => 1,
+    ],
 
     /*
     |--------------------------------------------------------------------------
