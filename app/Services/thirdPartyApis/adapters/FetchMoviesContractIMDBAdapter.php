@@ -7,6 +7,7 @@ use App\Services\thirdPartyApis\contracts\FetchMoviesContract;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 
 class FetchMoviesContractIMDBAdapter extends BaseFetchMovies implements FetchMoviesContract
@@ -42,6 +43,8 @@ class FetchMoviesContractIMDBAdapter extends BaseFetchMovies implements FetchMov
 
         $decoded = json_decode($guzzleResponse->getBody()->getContents(), true);
 
+        Log::debug(json_encode($decoded));
+
         if (array_key_exists('Error', $decoded)) {
             abort(Response::HTTP_EXPECTATION_FAILED, 'There was an error fetching movies: ' . $decoded['Error']);
         }
@@ -51,10 +54,12 @@ class FetchMoviesContractIMDBAdapter extends BaseFetchMovies implements FetchMov
         return $normalizedResponse;
     }
 
-
-
     public function normalizeResponse(array $response): array
     {
+        //todo: iterate first 5 responses and send requests
+        // by IMDB ids to get the real IMDB ratings
+        // tip: use generator
+
         return [
             'data' => $response['Search'],
             'meta' => [
